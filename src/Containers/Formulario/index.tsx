@@ -1,5 +1,8 @@
 import * as S from './styles'
 
+import { useDispatch } from 'react-redux'
+import { useState, FormEvent } from 'react'
+
 const Formulario = () => (
     <S.FormArea>
         <h2>Novo Contato</h2>
