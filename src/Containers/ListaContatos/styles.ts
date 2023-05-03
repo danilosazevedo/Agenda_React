@@ -4,11 +4,13 @@ export const ListadeContatos = styled.div`
 margin: 16px;
 `
 export const Button = styled.button`
-width: 5%;
+width: 25%;
 height: 20px;
 margin-bottom: 16px;
 `
 
 export const li = styled.li`
-height: 20px;
+margin-bottom: 8px;
+border-bottom: 1px solid;
+width: 25%;
 `

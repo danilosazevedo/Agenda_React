@@ -7,7 +7,7 @@ export type ContatosState = {
 }
 
 const initialState: ContatosState = {
-    itens:[
+    itens: [
         {
             id: 1,
             phone: 84994894269,
@@ -39,8 +39,8 @@ const contatosSlice = createSlice({
     name: 'contatos',
     initialState,
     reducers: {
-        remover: (state, action: PayloadAction<number>) => {
-            state.itens = state.itens.filter((contato) => contato.id !== action.payload)
+        remover: (state, action: PayloadAction<Contato>) => {
+            state.itens = state.itens.filter((contato) => contato.id !== action.payload.id)
         }
     }
 })
