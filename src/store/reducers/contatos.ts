@@ -10,28 +10,16 @@ const initialState: ContatosState = {
     itens: [
         {
             id: 1,
-            phone: 84994894269,
-            name: "Danilo Azevedo",
+            phone: '84994894269',
+            name: "Beltrano da Silva",
             email: "danilo-sa@live.com"
         },
         {
             id: 2,
-            phone: 8491695050,
+            phone: '84991695050',
             name: "Fulano da Silva",
             email: "danilo-sa@live.com"
         },
-        {
-            id: 3,
-            phone: 84991458789,
-            name: "Beltrano Costa",
-            email: "danilo-sa@live.com"
-        },
-        {
-            id: 4,
-            phone: 32472017,
-            name: "Sicrano Medeiros",
-            email: "danilo-sa@live.com"
-        }
     ]
 }
 
@@ -39,11 +27,17 @@ const contatosSlice = createSlice({
     name: 'contatos',
     initialState,
     reducers: {
-        remover: (state, action: PayloadAction<Contato>) => {
-            state.itens = state.itens.filter((contato) => contato.id !== action.payload.id)
+        remover: (state, action: PayloadAction<Omit<Contato, 'id'>>) => {
+            state.itens = state.itens.filter((contato) => contato.name !== action.payload.name)
+        },
+        adicionar: (state, action: PayloadAction<Contato>) => {
+            const dadosDoNovoContato = {
+                ...action.payload
+            }
+            state.itens.push(dadosDoNovoContato)
         }
     }
 })
 
-export const { remover } = contatosSlice.actions
+export const { remover, adicionar } = contatosSlice.actions
 export default contatosSlice.reducer
