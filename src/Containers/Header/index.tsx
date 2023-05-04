@@ -6,10 +6,11 @@ import { RootReducer } from '../../store'
 const BarraLateral = () => {
 
     const { itens } = useSelector((state: RootReducer) => state.contatos)
+    const editando = useSelector((state: RootReducer) => state.contatos.edit)
 
     return(
     <S.Header>
-        <h1>Lista de Contatos ({itens.length})</h1>
+        <h1>Lista de Contatos ({itens.length+editando.length})</h1>
     </S.Header>
     )
 }

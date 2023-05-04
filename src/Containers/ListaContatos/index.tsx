@@ -4,26 +4,31 @@ import { useSelector } from 'react-redux/es/exports'
 import { useDispatch } from 'react-redux/es/exports'
 import { RootReducer } from '../../store'
 
-import { remover } from '../../store/reducers/contatos'
+import { remover, editar } from '../../store/reducers/contatos'
 
 
 const ContactList = () => {
+
     const dispatch = useDispatch()
     const { itens } = useSelector((state: RootReducer) => state.contatos)
-
+    const editando = useSelector((state: RootReducer) => state.contatos.edit)
+    const emEdicao = editando.length
     return (
-        <S.ListadeContatos>
-            <ul>
-                {itens.map(contato =>
-                    <S.li key={contato.id}>
-                        <p>Nome: {contato.name}</p>
-                        <p>Telefone: {contato.phone}</p>
-                        <p>Email: {contato.email}</p>
-                        <S.Button>Editar</S.Button>
-                        <S.Button onClick={() => dispatch(remover(contato))}>Remover</S.Button>
-                    </S.li>)}
-            </ul>
-        </S.ListadeContatos>
+        <>
+            {emEdicao > 0 ? '' : <S.ListadeContatos>
+                <ul>
+                    {itens.map(contato =>
+                        <S.li key={contato.id}>
+                            <S.p>Nome: {contato.name}</S.p>
+                            <S.p>Telefone: {contato.phone}</S.p>
+                            <S.p>Email: {contato.email}</S.p>
+                            <S.ButtonEdit onClick={() => dispatch(editar(contato))}>Editar</S.ButtonEdit>
+                            <S.ButtonRemove onClick={() => dispatch(remover(contato))}>Remover</S.ButtonRemove>
+                        </S.li>)}
+                </ul>
+            </S.ListadeContatos>}
+
+        </>
     )
 }
 

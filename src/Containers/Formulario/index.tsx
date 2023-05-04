@@ -1,9 +1,12 @@
 import * as S from './styles'
 
-import { useDispatch } from 'react-redux'
-import { useState, FormEvent } from 'react'
+import { IMaskInput } from "react-imask"
+
+import { useDispatch, useSelector } from 'react-redux'
+import { useState, FormEvent, useEffect } from 'react'
 
 import { adicionar } from '../../store/reducers/contatos'
+import { RootReducer } from '../../store'
 
 
 const Formulario = () => {
@@ -21,31 +24,62 @@ const Formulario = () => {
                 phone,
                 name,
                 email,
-                id: 0
+                id: phone
             }))
 
-            setName('')
-            setPhone('')
-            setEmail('')
+        setName('')
+        setPhone('')
+        setEmail('')
     }
 
+    const editar = useSelector((state: RootReducer) => state.contatos.edit)
+
     return (
-        <S.FormArea onSubmit={cadastrarContato}>
-            <h2>Novo Contato</h2>
-            <S.Inputs
-                type="text" placeholder='Nome' value={name}
-                onChange={(evento) => setName(evento.target.value)}
-            />
-            <S.Inputs 
-            type="tel" placeholder='Telefone' value={phone}
-            onChange={(evento) => setPhone(evento.target.value)}
-            />
-            <S.Inputs 
-            type="email" placeholder='E-mail' value={email}
-            onChange={(evento) => setEmail(evento.target.value)}
-            />
-            <S.Botao type="submit">Cadastrar</S.Botao>
-        </S.FormArea>
+        editar.length > 0 ? <>
+            <S.FormArea onSubmit={cadastrarContato}>
+                {editar.map(contato =>
+                    <>
+                        <S.Title>Editando {contato.name}</S.Title>
+                        <S.Span>{`Nome: ${contato.name}`}</S.Span>
+                        < S.InputsEdit
+                            key={contato.id}
+                            type="text" placeholder='Novo Nome' defaultValue={name}
+                            onChange={(evento) => setName(evento.target.value)} required
+                        />
+                        <S.Span>{`Telefone: ${contato.phone}`}</S.Span>
+                        <S.InputsEdit
+                            key={contato.id}
+                            type="tel" placeholder='Novo Telefone (XX) XXXXX-XXXX' defaultValue={phone}
+                            onChange={(evento) => setPhone(evento.target.value)} required
+                        />
+                        <S.Span>{`Email: ${contato.email}`}</S.Span>
+                        <S.InputsEdit
+                            key={contato.id}
+                            type="email" placeholder='Novo E-mail example@example.com' defaultValue={email}
+                            onChange={(evento) => setEmail(evento.target.value)} required
+                        />
+                    </>
+                )}
+                <S.Botao type="submit">Salvar</S.Botao>
+            </S.FormArea>
+        </>
+            :
+            <S.FormArea onSubmit={cadastrarContato}>
+                <h2>Novo Contato</h2>
+                <S.Inputs
+                    type="text" placeholder='Nome' value={name}
+                    onChange={(evento) => setName(evento.target.value)} required
+                />
+                <S.Inputs
+                    type="tel" placeholder='Telefone (XX) XXXXX-XXXX' value={phone}
+                    onChange={(evento) => setPhone(evento.target.value)} required
+                />
+                <S.Inputs
+                    type="email" placeholder='E-mail example@example.com' value={email}
+                    onChange={(evento) => setEmail(evento.target.value)} required
+                />
+                <S.Botao type="submit">Cadastrar</S.Botao>
+            </S.FormArea>
     )
 }
 
